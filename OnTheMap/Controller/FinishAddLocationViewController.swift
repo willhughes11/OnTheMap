@@ -9,15 +9,11 @@ import MapKit
 
 class FinishAddLocationViewController: UIViewController {
     
-    // MARK: Outlets and properties
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var finishAddLocationButton: UIButton!
     
     var studentInformation: StudentInformation?
-    
-    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +34,6 @@ class FinishAddLocationViewController: UIViewController {
             showLocations(location: studentLocation)
         }
     }
-    
-    // MARK: Add or Update location
     
     @IBAction func finishAddLocation(_ sender: UIButton) {
         self.setLoading(true)
@@ -86,8 +80,6 @@ class FinishAddLocationViewController: UIViewController {
         }
     }
     
-    // MARK: New location in map
-    
     private func showLocations(location: Location) {
         mapView.removeAnnotations(mapView.annotations)
         if let coordinate = extractCoordinate(location: location) {
@@ -106,8 +98,6 @@ class FinishAddLocationViewController: UIViewController {
         }
         return nil
     }
-    
-    // MARK: Loading state
     
     func setLoading(_ loading: Bool) {
         if loading {

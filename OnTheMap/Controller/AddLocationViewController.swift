@@ -10,8 +10,6 @@ import MapKit
 
 class AddLocationViewController: UIViewController, UITextFieldDelegate {
     
-    // MARK: Outlets and properties
-    
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var websiteTextField: UITextField!
     @IBOutlet weak var findLocationButton: UIButton!
@@ -22,8 +20,6 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     var locationTextFieldIsEmpty = true
     var websiteTextFieldIsEmpty = true
     
-    // MARK: Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationTextField.delegate = self
@@ -31,13 +27,9 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         buttonEnabled(false, button: findLocationButton)
     }
     
-    // MARK: Cancel out of adding location
-    
     @IBAction func cancelAddLocation(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    // MARK: Find location action
     
     @IBAction func findLocation(sender: UIButton) {
         self.setLoading(true)
@@ -51,8 +43,6 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
 
         geocodePosition(newLocation: newLocation ?? "")
     }
-    
-    // MARK: Find geocode position
     
     private func geocodePosition(newLocation: String) {
         CLGeocoder().geocodeAddressString(newLocation) { (newMarker, error) in
@@ -78,15 +68,11 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // MARK: Push to Final Add Location screen
-    
     private func loadNewLocation(_ coordinate: CLLocationCoordinate2D) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "FinishAddLocationViewController") as! FinishAddLocationViewController
         controller.studentInformation = buildStudentInfo(coordinate)
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-    // MARK: Student info to display on Final Add Location screen
     
     private func buildStudentInfo(_ coordinate: CLLocationCoordinate2D) -> StudentInformation {
         
@@ -108,9 +94,7 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         return StudentInformation(studentInfo)
 
     }
-    
-    // MARK: Loading state
-    
+
     func setLoading(_ loading: Bool) {
         if loading {
             DispatchQueue.main.async {
@@ -129,8 +113,6 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
             self.findLocationButton.isEnabled = !loading
         }
     }
-    
-     // MARK: Enable and Disable Buttons and Text Fields
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == locationTextField {

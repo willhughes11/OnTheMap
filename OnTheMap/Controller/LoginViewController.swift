@@ -8,8 +8,6 @@
 import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
-
-    // MARK: Outlets and Properties
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -22,7 +20,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var emailFieldIsEmpty = true
     var passwordFieldIsEmpty = true
     
-    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +35,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField.text = ""
     }
     
-    // MARK: Log In
-    
     @IBAction func login(_ sender: UIButton) {
         setLoggingIn(true)
         UdacityClient.login(email: self.emailField.text ?? "", password: self.passwordField.text ?? "", completion: handleLoginResponse(success:error:))
     }
-    
-    // MARK: Sign Up
     
     @IBAction func signUp(_ sender: Any) {
         setLoggingIn(true)
@@ -64,8 +57,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             showAlert(message: "Please enter valid credentials.", title: "Login Error")
         }
     }
-    
-    // MARK: Loading state
     
     func setLoggingIn(_ loggingIn: Bool) {
         if loggingIn {
@@ -86,8 +77,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.signUpButton.isEnabled = !loggingIn
         }
     }
-    
-    // MARK: Enable and Disable Buttons and Text Fields
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == emailField {
