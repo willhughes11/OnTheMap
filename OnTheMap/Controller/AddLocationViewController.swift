@@ -44,6 +44,41 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         geocodePosition(newLocation: newLocation ?? "")
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == locationTextField {
+            let currenText = locationTextField.text ?? ""
+            guard let stringRange = Range(range, in: currenText) else { return false }
+            let updatedText = currenText.replacingCharacters(in: stringRange, with: string)
+            
+            if updatedText.isEmpty && updatedText == "" {
+                locationTextFieldIsEmpty = true
+            } else {
+                locationTextFieldIsEmpty = false
+            }
+        }
+        
+        if textField == websiteTextField {
+            let currenText = websiteTextField.text ?? ""
+            guard let stringRange = Range(range, in: currenText) else { return false }
+            let updatedText = currenText.replacingCharacters(in: stringRange, with: string)
+            
+            if updatedText.isEmpty && updatedText == "" {
+                websiteTextFieldIsEmpty = true
+            } else {
+                websiteTextFieldIsEmpty = false
+            }
+        }
+        
+        if locationTextFieldIsEmpty == false && websiteTextFieldIsEmpty == false {
+            buttonEnabled(true, button: findLocationButton)
+        } else {
+            buttonEnabled(false, button: findLocationButton)
+        }
+        
+        return true
+        
+    }
+    
     private func geocodePosition(newLocation: String) {
         CLGeocoder().geocodeAddressString(newLocation) { (newMarker, error) in
             if let error = error {
@@ -113,41 +148,18 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
             self.findLocationButton.isEnabled = !loading
         }
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == locationTextField {
-            let currenText = locationTextField.text ?? ""
-            guard let stringRange = Range(range, in: currenText) else { return false }
-            let updatedText = currenText.replacingCharacters(in: stringRange, with: string)
-            
-            if updatedText.isEmpty && updatedText == "" {
-                locationTextFieldIsEmpty = true
-            } else {
-                locationTextFieldIsEmpty = false
-            }
-        }
         
-        if textField == websiteTextField {
-            let currenText = websiteTextField.text ?? ""
-            guard let stringRange = Range(range, in: currenText) else { return false }
-            let updatedText = currenText.replacingCharacters(in: stringRange, with: string)
-            
-            if updatedText.isEmpty && updatedText == "" {
-                websiteTextFieldIsEmpty = true
-            } else {
-                websiteTextFieldIsEmpty = false
-            }
-        }
-        
-        if locationTextFieldIsEmpty == false && websiteTextFieldIsEmpty == false {
-            buttonEnabled(true, button: findLocationButton)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
         } else {
-            buttonEnabled(false, button: findLocationButton)
+            textField.resignFirstResponder()
+            findLocation(sender: findLocationButton)
+            
         }
-        
         return true
-        
     }
+
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         buttonEnabled(false, button: findLocationButton)
@@ -161,15 +173,5 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            textField.resignFirstResponder()
-            findLocation(sender: findLocationButton)
-            
-        }
-        return true
-    }
    
 }

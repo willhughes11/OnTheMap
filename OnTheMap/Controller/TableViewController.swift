@@ -19,7 +19,8 @@ class TableViewController: UITableViewController {
         self.view.addSubview(myIndicator)
         myIndicator.bringSubviewToFront(self.view)
         myIndicator.center = self.view.center
-        showActivityIndicator()
+        myIndicator.isHidden = false
+        myIndicator.startAnimating()
         super.viewDidLoad()
     }
     
@@ -29,11 +30,13 @@ class TableViewController: UITableViewController {
     }
     
     @IBAction func logout(_ sender: UIBarButtonItem) {
-        showActivityIndicator()
+        myIndicator.isHidden = false
+        myIndicator.startAnimating()
         UdacityClient.logout {
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
-                self.hideActivityIndicator()
+                self.myIndicator.stopAnimating()
+                self.myIndicator.isHidden = true
             }
         }
     }
@@ -43,12 +46,13 @@ class TableViewController: UITableViewController {
     }
     
     func getStudentsList() {
-        showActivityIndicator()
+        myIndicator.isHidden = false
+        myIndicator.startAnimating()
         UdacityClient.getStudentLocations() {students, error in
             self.students = students ?? []
             DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.hideActivityIndicator()
+                self.myIndicator.stopAnimating()
+                self.myIndicator.isHidden = true
             }
         }
     }
@@ -73,15 +77,4 @@ class TableViewController: UITableViewController {
         let student = students[indexPath.row]
         openLink(student.mediaURL ?? "")
     }
-    
-    func showActivityIndicator() {
-        myIndicator.isHidden = false
-        myIndicator.startAnimating()
-    }
-    
-    func hideActivityIndicator() {
-        myIndicator.stopAnimating()
-        myIndicator.isHidden = true
-    }
-    
 }

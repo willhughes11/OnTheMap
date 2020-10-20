@@ -62,8 +62,6 @@ class UdacityClient: NSObject {
         return Singleton.shared
     }
     
-    // MARK: Log In
-    
     class func login(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
         let body = "{\"udacity\": {\"username\": \"\(email)\", \"password\": \"\(password)\"}}"
         RequestHelpers.taskForPOSTRequest(url: Endpoints.udacityLogin.url, apiType: "Udacity", responseType: LoginResponse.self, body: body, httpMethod: "POST") { (response, error) in
@@ -82,8 +80,6 @@ class UdacityClient: NSObject {
         }
     }
     
-    // MARK: Get Logged In User's Name
-    
     class func getLoggedInUserProfile(completion: @escaping (Bool, Error?) -> Void) {
         RequestHelpers.taskForGETRequest(url: Endpoints.getLoggedInUserProfile.url, apiType: "Udacity", responseType: UserProfile.self) { (response, error) in
             if let response = response {
@@ -97,8 +93,6 @@ class UdacityClient: NSObject {
             }
         }
     }
-    
-    // MARK: Log Out
     
     class func logout(completion: @escaping () -> Void) {
         var request = URLRequest(url: Endpoints.udacityLogin.url)
@@ -125,8 +119,6 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
-    // MARK: Get All Students
-    
     class func getStudentLocations(completion: @escaping ([StudentInformation]?, Error?) -> Void) {
         RequestHelpers.taskForGETRequest(url: Endpoints.getStudentLocations.url, apiType: "Parse", responseType: StudentsLocation.self) { (response, error) in
             if let response = response {
@@ -136,8 +128,6 @@ class UdacityClient: NSObject {
             }
         }
     }
-    
-    // MARK: Add a Location
    
     class func addStudentLocation(information: StudentInformation, completion: @escaping (Bool, Error?) -> Void) {
         let body = "{\"uniqueKey\": \"\(information.uniqueKey ?? "")\", \"firstName\": \"\(information.firstName)\", \"lastName\": \"\(information.lastName)\",\"mapString\": \"\(information.mapString ?? "")\", \"mediaURL\": \"\(information.mediaURL ?? "")\",\"latitude\": \(information.latitude ?? 0.0), \"longitude\": \(information.longitude ?? 0.0)}"
@@ -149,8 +139,6 @@ class UdacityClient: NSObject {
             completion(false, error)
         }
     }
-    
-    // MARK: Update Location
  
     class func updateStudentLocation(information: StudentInformation, completion: @escaping (Bool, Error?) -> Void) {
         let body = "{\"uniqueKey\": \"\(information.uniqueKey ?? "")\", \"firstName\": \"\(information.firstName)\", \"lastName\": \"\(information.lastName)\",\"mapString\": \"\(information.mapString ?? "")\", \"mediaURL\": \"\(information.mediaURL ?? "")\",\"latitude\": \(information.latitude ?? 0.0), \"longitude\": \(information.longitude ?? 0.0)}"
