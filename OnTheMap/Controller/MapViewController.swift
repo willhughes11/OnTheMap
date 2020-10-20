@@ -20,7 +20,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         getStudentsPins()
     }
     
@@ -61,7 +61,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.mapView.addAnnotations(self.annotations)
                 self.activityIndicator.stopAnimating()
             }
+            if (error != nil) {
+                self.showLoadFailure(message: error?.localizedDescription ?? "")
+            }
         }
+    }
+    
+    func showLoadFailure(message: String) {
+        let alertVC = UIAlertController(title: "Data Load Failed", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        show(alertVC, sender: nil)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

@@ -54,8 +54,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "login", sender: nil)
             }
         } else {
-            showAlert(message: "Please enter valid credentials.", title: "Login Error")
+            showLoginFailure(message: error?.localizedDescription ?? "")
         }
+    }
+    
+    func showLoginFailure(message: String) {
+        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        show(alertVC, sender: nil)
     }
     
     func setLoggingIn(_ loggingIn: Bool) {

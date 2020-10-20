@@ -22,8 +22,6 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationTextField.delegate = self
-        websiteTextField.delegate = self
         buttonEnabled(false, button: findLocationButton)
     }
     

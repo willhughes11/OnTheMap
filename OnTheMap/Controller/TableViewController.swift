@@ -53,13 +53,21 @@ class TableViewController: UITableViewController {
             DispatchQueue.main.async {
                 self.myIndicator.stopAnimating()
                 self.myIndicator.isHidden = true
+                self.tableView.reloadData()
+            }
+            if (error != nil) {
+                self.showLoadFailure(message: error?.localizedDescription ?? "")
             }
         }
     }
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    
+    func showLoadFailure(message: String) {
+        let alertVC = UIAlertController(title: "Data Load Failed", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        show(alertVC, sender: nil)
     }
+
+
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return students.count
