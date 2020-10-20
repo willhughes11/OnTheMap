@@ -56,7 +56,9 @@ class TableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
             if (error != nil) {
-                self.showLoadFailure(message: error?.localizedDescription ?? "")
+                DispatchQueue.main.async {
+                    self.showAlert(message: error?.localizedDescription ?? "", title: "Data Load Failure")
+                }
             }
         }
     }

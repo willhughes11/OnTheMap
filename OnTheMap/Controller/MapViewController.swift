@@ -62,15 +62,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.activityIndicator.stopAnimating()
             }
             if (error != nil) {
-                self.showLoadFailure(message: error?.localizedDescription ?? "")
+                DispatchQueue.main.async {
+                    self.showAlert(message: error?.localizedDescription ?? "", title: "Data Load Failure")
+                }
             }
         }
-    }
-    
-    func showLoadFailure(message: String) {
-        let alertVC = UIAlertController(title: "Data Load Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

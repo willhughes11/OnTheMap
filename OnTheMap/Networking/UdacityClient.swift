@@ -75,7 +75,7 @@ class UdacityClient: NSObject {
                 })
                 completion(true, nil)
             } else {
-                completion(false, nil)
+                completion(false, error)
             }
         }
     }
